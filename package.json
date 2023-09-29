@@ -1,0 +1,22 @@
+{
+  "name": "cyto-snap",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.4.0",
+    "cytoscape": "^3.26.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.4.0",
+    "@types/cytoscape": "^3.19.11",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.4"
+  }
+}
