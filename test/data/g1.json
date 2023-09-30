@@ -23,7 +23,7 @@
     {
       "selector": "edge",
       "style": {
-        "width": 2,
+        "width": 3,
         "lineColor": "red"
       }
     }    

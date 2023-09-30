@@ -34,7 +34,12 @@ const assertEqualImages = async (file) => {
   const { match, reason, ...rest } = await compare(
     "test/data/" + file,
     "test/tmp/" + file,
-    "test/diff/" + file
+    "test/diff/" + file,
+    {
+      antialiasing: true,
+      diffColor: "#00ff00",
+      outputDiffMask: true,
+    }
   );
   if (!match) console.log(rest);
   assert.equal(match, true, reason);
