@@ -10,6 +10,34 @@ jobs:
 
     runs-on: ${{ matrix.platform }}
     steps:
+
+      - name: Get version
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: Get short sha
+        run: echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Get target
+        if: matrix.platform == 'macos-latest'
+        run: echo "RUST_TARGET=x86_64-apple-darwin" >> $GITHUB_ENV
+
+      - name: Get target
+        if: matrix.platform == 'ubuntu-20.04'
+        run: echo "RUST_TARGET=x86_64-unknown-linux-musl" >> $GITHUB_ENV
+
+      - name: Get target
+        if: matrix.platform == 'windows-latest'
+        run: echo "RUST_TARGET=x86_64-pc-windows-msvc" >> $GITHUB_ENV
+
+      - name: Get package name
+        run: echo "PACKAGE_NAME=cyto-snap-${process.env.PACKAGE_VERSION}-${process.env.SHA_SHORT}-${process.env.RUST_TARGET}" >> $GITHUB_ENV
+
+      - name: Pack executable
+        run: |
+          mkdir -p bins/${process.env.PACKAGE_NAME}
+          cp src-tauri/target/release/cyto-snap* bins/${process.env.PACKAGE_NAME}
+          tar -C bins -czvf ${process.env.PACKAGE_NAME}.tar.gz ${process.env.PACKAGE_NAME}
+
       - uses: actions/checkout@v3
 
       - name: Install dependencies (ubuntu only)
@@ -46,49 +74,8 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
-      # - uses: actions/upload-artifact@v3
-      #   if: matrix.platform == 'ubuntu-20.04'
-      #   with:
-      #     name: x86_64-unknown-linux-musl-cyto-snap
-      #     path: src-tauri/target/release/cyto-snap*
-      #     if-no-files-found: error
-
-      # - uses: actions/upload-artifact@v3
-      #   if: matrix.platform == 'windows-latest'
-      #   with:
-      #     name: x86_64-pc-windows-msvc-cyto-snap
-      #     path: src-tauri/target/release/cyto-snap*
-      #     if-no-files-found: error
-
-      - name: get version
-        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
-      - name: get short sha
-        run: echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      - name: get target
-        if: matrix.platform == 'macos-latest'
-        run: echo "RUST_TARGET=x86_64-apple-darwin" >> $GITHUB_ENV
-
-      - name: get target
-        if: matrix.platform == 'ubuntu-20.04'
-        run: echo "RUST_TARGET=x86_64-unknown-linux-musl" >> $GITHUB_ENV
-
-      - name: get target
-        if: matrix.platform == 'windows-latest'
-        run: echo "RUST_TARGET=x86_64-pc-windows-msvc" >> $GITHUB_ENV
-
-      - name: get package name
-        run: echo "PACKAGE_NAME=cyto-snap-${process.env.PACKAGE_VERSION}-${SHA_SHORT}-${RUST_TARGET}" >> $GITHUB_ENV
-
-      - name: Pack executable
-        run: |
-          mkdir -p bins/${process.env.PACKAGE_NAME}
-          cp src-tauri/target/release/cyto-snap* bins/${process.env.PACKAGE_NAME}
-          tar -C bins -czvf ${process.env.PACKAGE_NAME}.tar.gz ${process.env.PACKAGE_NAME}
-
       - uses: actions/upload-artifact@v3
         with:
-          name: ${process.env.PACKAGE_NAME}
-          path: ${process.env.PACKAGE_NAME}
+          name: process.env.PACKAGE_NAME
+          path: process.env.PACKAGE_NAME
           if-no-files-found: error
