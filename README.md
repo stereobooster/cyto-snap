@@ -6,7 +6,8 @@
    1. Install `rust`
 2. Install `pnpm`
    1. `pnpm install`
-3. Run: `pnpm tauri dev`
+3. Build `pnpm tauri build`
+4. Run `src-tauri/target/release/cyto-snap -s tmp/example.json -d tmp/example.png`
 
 ## Notes
 
@@ -14,7 +15,7 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
 
 **TODO**:
 
-- [ ] setup CI
+- [ ] setup CI https://github.com/tauri-apps/tauri-action
   - cross-platform https://tauri.app/v1/guides/building/cross-platform/
   - setup github releases
     - and checksums

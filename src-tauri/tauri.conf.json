@@ -19,13 +19,25 @@
       }
     },
     "cli": {
-      "description": "Render graphs on the server side with Cytoscape.js, getting image files as output",
+      "description": "Render graphs on the server side with Cytoscape.js, getting image file as output",
       "longDescription": "This package is similar to cytosnap, but is uses Tauri instead of Puppeteer",
       "beforeHelp": "",
       "afterHelp": "",
       "args": [
-        { "name": "source", "short": "s", "takesValue": true },
-        { "name": "destination", "short": "d", "takesValue": true }
+        {
+          "name": "source",
+          "short": "s",
+          "takesValue": true,
+          "multiple": false,
+          "multipleOccurrences": false
+        },
+        {
+          "name": "destination",
+          "short": "d",
+          "takesValue": true,
+          "multiple": false,
+          "multipleOccurrences": false
+        }
       ],
       "subcommands": {}
     },
