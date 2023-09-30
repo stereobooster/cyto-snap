@@ -1,6 +1,6 @@
 import cytoscape from "cytoscape";
 import { invoke } from "@tauri-apps/api/tauri";
-import { exit } from "@tauri-apps/api/process";
+import { getMatches } from "@tauri-apps/api/cli";
 
 type Options = {
   // cytoscape
@@ -8,16 +8,14 @@ type Options = {
   style: cytoscape.Stylesheet[];
   layout: cytoscape.LayoutOptions;
   // other
-  format: "png" | "jpeg" | "json";
+  format: "png" | "jpeg"; // | "json";
   quality: number;
-  resolvesTo: "base64uri" | "base64" | "binary";
+  resolvesTo: "base64uri" | "base64"; //| "binary";
   // not implemented
-  background: string;
-  width: number;
-  height: number;
+  // background: string;
+  // width: number;
+  // height: number;
 };
-
-import { getMatches } from '@tauri-apps/api/cli'
 
 const defaults: Options = {
   elements: [],
@@ -26,69 +24,56 @@ const defaults: Options = {
   format: "png",
   quality: 85,
   resolvesTo: "base64uri",
-  background: "transparent",
-  width: 200,
-  height: 200,
+  // background: "transparent",
+  // width: 200,
+  // height: 200,
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const matches = await getMatches();
-    invoke("println", { str: JSON.stringify(matches.args)})
-
-
-    let data: Options = await invoke("get_options").then((x) =>
-      JSON.parse(x as string)
-    );
-    data = { ...defaults, ...data };
+    const src = matches.args.source.value || "";
+    const dst = matches.args.destination.value || "";
+    let source_raw = await invoke<string>("read_source", { src });
+    // TODO: maybe validate with https://github.com/samchon/typia
+    const source: Options = { ...defaults, ...JSON.parse(source_raw) };
 
     const cy = cytoscape({
       container: document.getElementById("cy"),
-      ...data,
+      ...source,
     });
 
-    // cy.promiseOn("ready")
-    //   .then(async () => {
+    cy.layout(source.layout).run();
 
-    //   })
-    //   .catch(async () => {
-    //     await exit(1);
-    //   });
+    let res: string = "";
 
-    // cy.data(data.elements)
-    // cy.style(data.style)
-    cy.layout(data.layout).run();
-
-    let res: Promise<"string">;
-    switch (data.format) {
-      case "jpeg": {
-        const b64 = cy
-          .jpeg({ quality: data.quality })
-          .replace(`data:image/${data.format};base64,`, "");
-        res = invoke("on_layoutstop", {
-          res: b64,
-        });
+    switch (source.format) {
+      case "jpeg":
+        res = cy.jpeg({ quality: source.quality });
         break;
-      }
-      case "png": {
-        const b64 = cy.png().replace(`data:image/${data.format};base64,`, "");
-        res = invoke("on_layoutstop", {
-          res: b64,
-        });
+      case "png":
+        res = cy.png();
         break;
-      }
-      case "json": {
-        const b64 = JSON.stringify(cy.json());
-        res = invoke("on_layoutstop", {
-          res: b64,
-        });
-        break;
-      }
+      // case "json":
+      //   result = JSON.stringify(cy.json());
+      //   break;
     }
 
-    await res;
-    await exit(0);
+    if (dst) source.resolvesTo = "base64";
+
+    switch (source.resolvesTo) {
+      case "base64uri":
+        // do nothing
+        break;
+      case "base64":
+        res = res.replace(`data:image/${source.format};base64,`, "");
+        break;
+    }
+
+    await invoke("write_destination", { dst, res });
+    await invoke("app_exit", { exitCode: 0 });
   } catch (e) {
-    await exit(1);
+    await invoke("eprintln", { str: String(e) });
+    await invoke("app_exit", { exitCode: 1 });
   }
 });

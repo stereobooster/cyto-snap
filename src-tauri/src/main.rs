@@ -1,12 +1,14 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use std::{fs, os::fd::AsFd, io::Read};
+
+use std::path::{Path, PathBuf};
+use std::{env, fs, io, io::Read};
+
 use tauri::ActivationPolicy;
-use std::{
-    fs::File,
-    io::{stdin, BufRead, BufReader},
-    path::PathBuf,
-};
+
+use base64::Engine;
+use is_terminal::IsTerminal;
+use path_clean::PathClean;
 
 #[tauri::command]
 fn println(str: String) {
@@ -14,73 +16,67 @@ fn println(str: String) {
 }
 
 #[tauri::command]
-fn read_source(src: String) {
-    // let mut file = PathBuf::from(src);
-    // let word_count;
+fn eprintln(str: String) {
+    eprintln!("{}", str);
+}
 
+#[tauri::command]
+fn app_exit(app_handle: tauri::AppHandle, exit_code: i32) {
+    app_handle.exit(exit_code)
+}
+
+pub fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
+    let path = path.as_ref();
+
+    let absolute_path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        env::current_dir()?.join(path)
+    }
+    .clean();
+
+    Ok(absolute_path)
+}
+
+#[tauri::command]
+fn read_source(src: String) -> Result<String, String> {
     if src == "" {
         let stdin = std::io::stdin();
 
-        if std::io::IsTerminal.is_terminal() {
-            // ::std::process::exit(2);
+        if stdin.is_terminal() {
+            return Err(String::from("Can't read from stdin in terminal"));
         }
 
         let mut buffer = String::new();
-        let mut handle = stdin.lock();
-        let data = handle.read_to_string(bufffer);
-    
+        match stdin.lock().read_to_string(&mut buffer) {
+            Ok(_) => Ok(buffer),
+            Err(_) => Err(String::from("Error reading from stdin")),
+        }
     } else {
-        fs::read_to_string(path.to_str().unwrap());
-        
-    }
-
-}
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn get_options() -> Result<String, String> {
-    // println!("get_options");
-
-    let mut path = current_dir().unwrap();
-    path.push("example.json");
-
-    let data = fs::read_to_string(path.to_str().unwrap());
-    match data {
-        std::result::Result::Ok(v) => {
-            println!("Found file {}", path.to_str().unwrap());
-            Ok(v)
-        }
-        std::result::Result::Err(_) => {
-            println!("No such file {}", path.to_str().unwrap());
-            Err(String::from("No such file"))
+        let path = absolute_path(PathBuf::from(src)).unwrap();
+        match fs::read_to_string(&path) {
+            std::result::Result::Ok(v) => Ok(v),
+            std::result::Result::Err(e) => {
+                Err(format!("{} ({})", e.to_string(), path.to_string_lossy()))
+            }
         }
     }
 }
 
-use base64::Engine;
-use std::env::current_dir;
-
 #[tauri::command]
-fn on_layoutstop(app_handle: tauri::AppHandle, res: String) {
-    //-> Result<String, String> {
-    // println!("on_layoutstop");
-
-    let bytes_url = base64::engine::general_purpose::STANDARD.decode(res);
-
-    let mut path = current_dir().unwrap();
-    path.push("example.png");
-
-    match bytes_url {
-        std::result::Result::Ok(v) => {
-            std::fs::write(path.to_str().unwrap(), v).unwrap();
-            // println!("generated file");
-            // Ok(String::from("ok"))
-            app_handle.exit(0)
-        }
-        std::result::Result::Err(_e) => {
-            // println!("error generating file");
-            // Err(String::from(e.to_string()))
-            app_handle.exit(1)
+fn write_destination(dst: String, res: String) -> Result<String, String> {
+    if dst == "" {
+        print!("{}", res);
+        Ok(String::from("ok"))
+    } else {
+        let bytes = base64::engine::general_purpose::STANDARD.decode(res);
+        let path = absolute_path(PathBuf::from(dst)).unwrap();
+        match bytes {
+            std::result::Result::Ok(v) => {
+                std::fs::write(path, v).unwrap();
+                Ok(String::from("ok"))
+            }
+            std::result::Result::Err(e) => Err(e.to_string()),
         }
     }
 }
@@ -89,24 +85,14 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| {
             app.set_activation_policy(ActivationPolicy::Accessory);
-            // match app.get_cli_matches() {
-            //     // `matches` here is a Struct with { args, subcommand }.
-            //     // `args` is `HashMap<String, ArgData>` where `ArgData` is a struct with { value, occurrences }.
-            //     // `subcommand` is `Option<Box<SubcommandMatches>>` where `SubcommandMatches` is a struct with { name, matches }.
-            //     Ok(matches) => {
-            //         println!("{:?}", matches)
-            //     }
-            //     Err(e) => {
-            //         println!("{:?}", e.to_string());
-            //         app.handle().exit(1)
-            //     }
-            // }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
             println,
-            get_options,
-            on_layoutstop
+            eprintln,
+            app_exit,
+            read_source,
+            write_destination
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
