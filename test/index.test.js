@@ -39,6 +39,7 @@ const assertEqualImages = async (file) => {
       antialiasing: true,
       diffColor: "#00ff00",
       outputDiffMask: true,
+      threshold: 0.05,
     }
   );
   if (!match) console.log(rest);
