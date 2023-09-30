@@ -46,9 +46,6 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
-      - name: just check
-        run: echo "${RUST_TARGET}"
-
       - name: Set env variables (PACKAGE_VERSION, PACKAGE_NAME, SHA_SHORT)
         run: |
           echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
@@ -78,6 +75,6 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: "${process.env.BIN_NAME}"
-          path: "${process.env.BIN_NAME}"
+          name: "${env.BIN_NAME}"
+          path: "${env.BIN_NAME}"
           if-no-files-found: error
