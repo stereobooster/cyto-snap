@@ -54,6 +54,11 @@ window.addEventListener("DOMContentLoaded", async () => {
       if (typeof style.height === "number")
         style.height = style.height / window.devicePixelRatio;
     }
+    if ("style" in source.style[1] && source.style[1].selector === "edge") {
+      const style = source.style[1]?.style as Css.Edge;
+      if (typeof style.width === "number")
+        style.width = style.width / window.devicePixelRatio;
+    }
     if (
       "padding" in source.layout &&
       typeof source.layout.padding === "number"

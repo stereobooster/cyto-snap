@@ -19,7 +19,13 @@
         "shape": "hexagon",
         "background-color": "red"
       }
-    }
+    },
+    {
+      "selector": "edge",
+      "style": {
+        "width": 2
+      }
+    }    
   ],
   "layout": {
     "name": "grid",
