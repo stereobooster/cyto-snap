@@ -73,6 +73,4 @@ jobs:
 
       - run: tar -C builds -czvf cyto-snap-x86_64-apple-darwin.tar.gz cyto-snap-x86_64-apple-darwin
 
-      - run: ls builds
-
-      
+      - run: ls 
