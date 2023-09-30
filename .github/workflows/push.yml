@@ -32,12 +32,6 @@ jobs:
       - name: Get package name
         run: echo "PACKAGE_NAME=cyto-snap-${process.env.PACKAGE_VERSION}-${process.env.SHA_SHORT}-${process.env.RUST_TARGET}" >> $GITHUB_ENV
 
-      - name: Pack executable
-        run: |
-          mkdir -p bins/${process.env.PACKAGE_NAME}
-          cp src-tauri/target/release/cyto-snap* bins/${process.env.PACKAGE_NAME}
-          tar -C bins -czvf ${process.env.PACKAGE_NAME}.tar.gz ${process.env.PACKAGE_NAME}
-
       - uses: actions/checkout@v3
 
       - name: Install dependencies (ubuntu only)
@@ -73,6 +67,12 @@ jobs:
 
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
+
+      - name: Pack executable
+        run: |
+          mkdir -p bins/${process.env.PACKAGE_NAME}
+          cp src-tauri/target/release/cyto-snap* bins/${process.env.PACKAGE_NAME}
+          tar -C bins -czvf ${process.env.PACKAGE_NAME}.tar.gz ${process.env.PACKAGE_NAME}
 
       - uses: actions/upload-artifact@v3
         with:
