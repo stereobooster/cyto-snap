@@ -53,3 +53,8 @@ test("graph 1", async () => {
   await cytoSnap("data/g1.json", "tmp/g1.png");
   await assertEqualImages("g1.png");
 });
+
+test("graph 2", async () => {
+  await cytoSnap("data/g2.json", "tmp/g2.png");
+  await assertEqualImages("g2.png");
+});
