@@ -21,6 +21,7 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
     - and checksums
   - https://superface.ai/blog/npm-publish-gh-actions-changelog
 - distribution
+  - https://github.com/tauri-apps/tauri/discussions/3048
   - Brew and others https://oclif.io/docs/releasing/
   - npm https://www.woubuc.be/blog/post/publishing-rust-binary-on-npm/
     - https://blog.xendit.engineer/how-we-repurposed-npm-to-publish-and-distribute-our-go-binaries-for-internal-cli-23981b80911b
