@@ -47,13 +47,6 @@ jobs:
       #   uses: tauri-apps/tauri-action@v0
 
       # - uses: actions/upload-artifact@v3
-      #   if: matrix.platform == 'macos-latest'
-      #   with:
-      #     name: x86_64-apple-darwin-cyto-snap
-      #     path: src-tauri/target/release/cyto-snap*
-      #     if-no-files-found: error
-
-      # - uses: actions/upload-artifact@v3
       #   if: matrix.platform == 'ubuntu-20.04'
       #   with:
       #     name: x86_64-unknown-linux-musl-cyto-snap
@@ -67,10 +60,16 @@ jobs:
       #     path: src-tauri/target/release/cyto-snap*
       #     if-no-files-found: error
 
-      - run: mkdir -p builds/cyto-snap-x86_64-apple-darwin
+      - name: Pack executable
+        run: |
+          mkdir -p builds/cyto-snap-x86_64-apple-darwin
+          cp src-tauri/target/release/cyto-snap* builds/cyto-snap-x86_64-apple-darwin
+          tar -C builds -czvf cyto-snap-x86_64-apple-darwin.tar.gz cyto-snap-x86_64-apple-darwin
+        if: matrix.platform == 'macos-latest'
 
-      - run: cp src-tauri/target/release/cyto-snap* builds/cyto-snap-x86_64-apple-darwin
-
-      - run: tar -C builds -czvf cyto-snap-x86_64-apple-darwin.tar.gz cyto-snap-x86_64-apple-darwin
-
-      - run: ls 
+      - uses: actions/upload-artifact@v3
+        if: matrix.platform == 'macos-latest'
+        with:
+          name: cyto-snap-x86_64-apple-darwin.tar.gz
+          path: cyto-snap-x86_64-apple-darwin.tar.gz
+          if-no-files-found: error
