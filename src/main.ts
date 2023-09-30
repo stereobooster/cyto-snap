@@ -39,8 +39,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     const source: Options = { ...defaults, ...JSON.parse(source_raw) };
 
     const container = document.getElementById("cy")!;
-    container.style.width = `${source.width}px`
-    container.style.height = `${source.height}px`
+    container.style.width = `${Math.floor(source.width / window.devicePixelRatio)}px`
+    container.style.height = `${Math.floor(source.height / window.devicePixelRatio)}px`
 
     const cy = cytoscape({ container, ...source });
 
