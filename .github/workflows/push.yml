@@ -30,7 +30,7 @@ jobs:
         run: echo "RUST_TARGET=x86_64-pc-windows-msvc" >> $GITHUB_ENV
 
       - name: Get package name
-        run: echo "PACKAGE_NAME=cyto-snap-${process.env.PACKAGE_VERSION}-${process.env.SHA_SHORT}-${process.env.RUST_TARGET}" >> $GITHUB_ENV
+        run: echo "PACKAGE_NAME=cyto-snap-${PACKAGE_VERSION}-${SHA_SHORT}-${RUST_TARGET}" >> $GITHUB_ENV
 
       - uses: actions/checkout@v3
 
