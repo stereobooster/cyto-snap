@@ -13,8 +13,8 @@ type Options = {
   resolvesTo: "base64uri" | "base64"; //| "binary";
   // not implemented
   // background: string;
-  // width: number;
-  // height: number;
+  width: number;
+  height: number;
 };
 
 const defaults: Options = {
@@ -25,8 +25,8 @@ const defaults: Options = {
   quality: 85,
   resolvesTo: "base64uri",
   // background: "transparent",
-  // width: 200,
-  // height: 200,
+  width: 400,
+  height: 400,
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -38,10 +38,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     // TODO: maybe validate with https://github.com/samchon/typia
     const source: Options = { ...defaults, ...JSON.parse(source_raw) };
 
-    const cy = cytoscape({
-      container: document.getElementById("cy"),
-      ...source,
-    });
+    const container = document.getElementById("cy")!;
+    container.style.width = `${source.width}px`
+    container.style.height = `${source.height}px`
+
+    const cy = cytoscape({ container, ...source });
 
     cy.layout(source.layout).run();
 
