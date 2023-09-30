@@ -22,7 +22,7 @@
     "layout": {
       "name": "grid",
       "fit": true,
-      "padding": 30,
+      "padding": 0,
       "animate": false
     }
   }
