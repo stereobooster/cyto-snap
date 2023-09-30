@@ -1,14 +1,14 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::path::{Path, PathBuf};
-use std::{env, fs, io, io::Read};
-
+#[cfg(target_os = "macos")]
 use tauri::ActivationPolicy;
 
 use base64::Engine;
 use is_terminal::IsTerminal;
 use path_clean::PathClean;
+use std::path::{Path, PathBuf};
+use std::{env, fs, io, io::Read};
 
 #[tauri::command]
 fn println(str: String) {
@@ -25,7 +25,7 @@ fn app_exit(app_handle: tauri::AppHandle, exit_code: i32) {
     app_handle.exit(exit_code)
 }
 
-pub fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
+fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
     let path = path.as_ref();
 
     let absolute_path = if path.is_absolute() {
@@ -84,6 +84,7 @@ fn write_destination(dst: String, res: String) -> Result<String, String> {
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
+            #[cfg(target_os = "macos")]
             app.set_activation_policy(ActivationPolicy::Accessory);
             Ok(())
         })
