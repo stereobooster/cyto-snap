@@ -46,10 +46,18 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
-      - run: ls -la src-tauri/target/release/cyto-snap
+      - run: ls src-tauri/target/release/
+        if: matrix.platform == 'windows-latest'
 
       - uses: actions/upload-artifact@v3
         if: matrix.platform == 'macos-latest'
         with:
           name: x86_64-apple-darwin-cyto-snap
           path: src-tauri/target/release/cyto-snap
+
+      - uses: actions/upload-artifact@v3
+        if: matrix.platform == 'ubuntu-20.04'
+        with:
+          name: x86_64-unknown-linux-musl-cyto-snap
+          path: src-tauri/target/release/cyto-snap
+  
