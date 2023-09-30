@@ -1,29 +1,30 @@
 {
-    "elements": [
-      { "data": { "id": "a" } },
-      { "data": { "id": "b" } },
-      {
-        "data": {
-          "id": "ab",
-          "source": "a",
-          "target": "b"
-        }
+  "elements": [
+    { "data": { "id": "a" } },
+    { "data": { "id": "b" } },
+    {
+      "data": {
+        "id": "ab",
+        "source": "a",
+        "target": "b"
       }
-    ],
-    "style": [
-      {
-        "selector": "node",
-        "style": {
-          "shape": "hexagon",
-          "background-color": "red"
-        }
-      }
-    ],
-    "layout": {
-      "name": "grid",
-      "fit": true,
-      "padding": 0,
-      "animate": false
     }
+  ],
+  "style": [
+    {
+      "selector": "node",
+      "style": {
+        "width": 20,
+        "height": 20,
+        "shape": "hexagon",
+        "background-color": "red"
+      }
+    }
+  ],
+  "layout": {
+    "name": "grid",
+    "fit": true,
+    "padding": 0,
+    "animate": false
   }
-  
+}

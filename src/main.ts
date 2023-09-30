@@ -1,4 +1,4 @@
-import cytoscape from "cytoscape";
+import cytoscape, { Css } from "cytoscape";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getMatches } from "@tauri-apps/api/cli";
 
@@ -39,8 +39,28 @@ window.addEventListener("DOMContentLoaded", async () => {
     const source: Options = { ...defaults, ...JSON.parse(source_raw) };
 
     const container = document.getElementById("cy")!;
-    container.style.width = `${Math.floor(source.width / window.devicePixelRatio)}px`
-    container.style.height = `${Math.floor(source.height / window.devicePixelRatio)}px`
+
+    // pixelperfect - start
+    container.style.width = `${Math.floor(
+      source.width / window.devicePixelRatio
+    )}px`;
+    container.style.height = `${Math.floor(
+      source.height / window.devicePixelRatio
+    )}px`;
+    if ("style" in source.style[0] && source.style[0].selector === "node") {
+      const style = source.style[0]?.style as Css.Node;
+      if (typeof style.width === "number")
+        style.width = style.width / window.devicePixelRatio;
+      if (typeof style.height === "number")
+        style.height = style.height / window.devicePixelRatio;
+    }
+    if (
+      "padding" in source.layout &&
+      typeof source.layout.padding === "number"
+    ) {
+      source.layout.padding = source.layout.padding / window.devicePixelRatio;
+    }
+    // pixelperfect - end
 
     const cy = cytoscape({ container, ...source });
 
