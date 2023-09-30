@@ -49,6 +49,12 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: image-diff
+          path: test/diff/*
+
       - name: Set env variables (PACKAGE_VERSION, PACKAGE_NAME, SHA_SHORT)
         run: |
           echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV

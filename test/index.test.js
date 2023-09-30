@@ -30,18 +30,19 @@ const cytoSnap = (src, dst) => {
   });
 };
 
-const assertEqualImages = async (f1, f2) => {
+const assertEqualImages = async (f1) => {
   const { match, reason } = await compare(
-    "test/" + f1,
-    "test/" + f2,
-    "test/" + f1 + "diff"
+    "test/data/" + f1,
+    "test/tmp/" + f2,
+    "test/diff/" + f1
   );
   assert.equal(match, true, reason);
 };
 
 if (!existsSync("test/tmp")) mkdirSync("test/tmp");
+if (!existsSync("test/diff")) mkdirSync("test/diff");
 
 test("graph 1", async () => {
   await cytoSnap("data/g1.json", "tmp/g1.png");
-  await assertEqualImages("data/g1.png", "tmp/g1.png");
+  await assertEqualImages("g1.png");
 });
