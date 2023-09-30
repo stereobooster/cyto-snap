@@ -31,7 +31,7 @@ const cytoSnap = (src, dst) => {
 };
 
 const assertEqualImages = async (file) => {
-  const { match, reason, ...rest } = await compare(
+  let { match, reason, ...rest } = await compare(
     "test/data/" + file,
     "test/tmp/" + file,
     "test/diff/" + file,
@@ -39,9 +39,9 @@ const assertEqualImages = async (file) => {
       antialiasing: true,
       diffColor: "#00ff00",
       outputDiffMask: true,
-      threshold: 0.05,
     }
   );
+  if (reason === "pixel-diff") match = rest.diffPercentage < 0.05;
   if (!match) console.log(rest);
   assert.equal(match, true, reason);
 };
