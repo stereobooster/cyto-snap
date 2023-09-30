@@ -30,11 +30,11 @@ const cytoSnap = (src, dst) => {
   });
 };
 
-const assertEqualImages = async (f1) => {
+const assertEqualImages = async (file) => {
   const { match, reason } = await compare(
-    "test/data/" + f1,
-    "test/tmp/" + f2,
-    "test/diff/" + f1
+    "test/data/" + file,
+    "test/tmp/" + file,
+    "test/diff/" + file,
   );
   assert.equal(match, true, reason);
 };
