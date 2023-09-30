@@ -19,6 +19,7 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
   - cross-platform https://tauri.app/v1/guides/building/cross-platform/
   - setup github releases
     - and checksums
+  - https://superface.ai/blog/npm-publish-gh-actions-changelog
 - distribution
   - Brew and others https://oclif.io/docs/releasing/
   - npm https://www.woubuc.be/blog/post/publishing-rust-binary-on-npm/

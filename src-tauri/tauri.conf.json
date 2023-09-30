@@ -42,7 +42,7 @@
       "subcommands": {}
     },
     "bundle": {
-      "active": true,
+      "active": false,
       "targets": "all",
       "identifier": "com.stereobooster.cytosnap",
       "icon": [
