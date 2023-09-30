@@ -75,6 +75,6 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: "${env.BIN_NAME}"
-          path: "${env.BIN_NAME}"
+          name: ${{ env.BIN_NAME }}
+          path: ${{ env.BIN_NAME }}
           if-no-files-found: error
