@@ -1,4 +1,4 @@
-# Tauri + Vanilla TS
+# cyto-snap
 
 ## Development
 
