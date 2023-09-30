@@ -16,14 +16,15 @@
       "style": {
         "width": 20,
         "height": 20,
-        "shape": "hexagon",
+        "shape": "circle",
         "background-color": "red"
       }
     },
     {
       "selector": "edge",
       "style": {
-        "width": 2
+        "width": 2,
+        "lineColor": "red"
       }
     }    
   ],
