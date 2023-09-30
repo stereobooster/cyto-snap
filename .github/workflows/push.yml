@@ -52,6 +52,12 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
+          name: image-tmp
+          path: test/tmp/*
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
           name: image-diff
           path: test/diff/*
 
