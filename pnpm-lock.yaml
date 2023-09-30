@@ -17,6 +17,9 @@ devDependencies:
   cytoscape:
     specifier: ^3.26.0
     version: 3.26.0
+  odiff-bin:
+    specifier: ^2.6.1
+    version: 2.6.1
   typescript:
     specifier: ^5.0.2
     version: 5.0.2
@@ -398,6 +401,12 @@ packages:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: true
+
+  /odiff-bin@2.6.1:
+    resolution: {integrity: sha512-SeI3ehAqjQUMlUkGjvIFGKoHZIO3zG1N1wMRhf7ojM7Vb+HcyB2RKSSCu7kbvYVtSdZADEBSJ7nvP/d7iBLivA==}
+    hasBin: true
+    requiresBuild: true
     dev: true
 
   /picocolors@1.0.0:

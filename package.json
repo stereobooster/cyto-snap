@@ -6,15 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "node test/index.test.js",
     "preview": "vite preview",
     "tauri": "tauri"
   },
-  "dependencies": {},
   "devDependencies": {
     "@tauri-apps/api": "^1.4.0",
-    "cytoscape": "^3.26.0",
     "@tauri-apps/cli": "^1.4.0",
     "@types/cytoscape": "^3.19.11",
+    "cytoscape": "^3.26.0",
+    "odiff-bin": "^2.6.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.4"
   }
