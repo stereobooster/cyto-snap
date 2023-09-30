@@ -1,4 +1,4 @@
-import cytoscape, { Css } from "cytoscape";
+import cytoscape from "cytoscape";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getMatches } from "@tauri-apps/api/cli";
 
@@ -10,9 +10,8 @@ type Options = {
   // other
   format: "png" | "jpeg"; // | "json";
   quality: number;
-  resolvesTo: "base64uri" | "base64"; //| "binary";
-  // not implemented
-  // background: string;
+  resolvesTo: "base64uri" | "base64"; //| "blob";
+  background: string;
   width: number;
   height: number;
 };
@@ -24,7 +23,7 @@ const defaults: Options = {
   format: "png",
   quality: 85,
   resolvesTo: "base64uri",
-  // background: "transparent",
+  background: "transparent",
   width: 400,
   height: 400,
 };
@@ -40,31 +39,34 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     const container = document.getElementById("cy")!;
 
+    container.style.width = `${source.width}px`;
+    container.style.height = `${source.height}px`;
+
     // pixelperfect - start
-    container.style.width = `${Math.floor(
-      source.width / window.devicePixelRatio
-    )}px`;
-    container.style.height = `${Math.floor(
-      source.height / window.devicePixelRatio
-    )}px`;
-    if ("style" in source.style[0] && source.style[0].selector === "node") {
-      const style = source.style[0]?.style as Css.Node;
-      if (typeof style.width === "number")
-        style.width = style.width / window.devicePixelRatio;
-      if (typeof style.height === "number")
-        style.height = style.height / window.devicePixelRatio;
-    }
-    if ("style" in source.style[1] && source.style[1].selector === "edge") {
-      const style = source.style[1]?.style as Css.Edge;
-      if (typeof style.width === "number")
-        style.width = style.width / window.devicePixelRatio;
-    }
-    if (
-      "padding" in source.layout &&
-      typeof source.layout.padding === "number"
-    ) {
-      source.layout.padding = source.layout.padding / window.devicePixelRatio;
-    }
+    // container.style.width = `${Math.floor(
+    //   source.width / window.devicePixelRatio
+    // )}px`;
+    // container.style.height = `${Math.floor(
+    //   source.height / window.devicePixelRatio
+    // )}px`;
+    // if ("style" in source.style[0] && source.style[0].selector === "node") {
+    //   const style = source.style[0]?.style as Css.Node;
+    //   if (typeof style.width === "number")
+    //     style.width = style.width / window.devicePixelRatio;
+    //   if (typeof style.height === "number")
+    //     style.height = style.height / window.devicePixelRatio;
+    // }
+    // if ("style" in source.style[1] && source.style[1].selector === "edge") {
+    //   const style = source.style[1]?.style as Css.Edge;
+    //   if (typeof style.width === "number")
+    //     style.width = style.width / window.devicePixelRatio;
+    // }
+    // if (
+    //   "padding" in source.layout &&
+    //   typeof source.layout.padding === "number"
+    // ) {
+    //   source.layout.padding = source.layout.padding / window.devicePixelRatio;
+    // }
     // pixelperfect - end
 
     const cy = cytoscape({ container, ...source });
@@ -73,27 +75,29 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     let res: string = "";
 
+    if (dst) source.resolvesTo = "base64";
+
     switch (source.format) {
       case "jpeg":
-        res = cy.jpeg({ quality: source.quality });
+        res = cy.jpeg({
+          quality: source.quality,
+          bg: source.background,
+          maxWidth: source.width,
+          maxHeight: source.height,
+          output: source.resolvesTo,
+        });
         break;
       case "png":
-        res = cy.png();
+        res = cy.png({
+          bg: source.background,
+          maxWidth: source.width,
+          maxHeight: source.height,
+          output: source.resolvesTo,
+        });
         break;
       // case "json":
       //   result = JSON.stringify(cy.json());
       //   break;
-    }
-
-    if (dst) source.resolvesTo = "base64";
-
-    switch (source.resolvesTo) {
-      case "base64uri":
-        // do nothing
-        break;
-      case "base64":
-        res = res.replace(`data:image/${source.format};base64,`, "");
-        break;
     }
 
     await invoke("write_destination", { dst, res });
