@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest] #, ubuntu-20.04, windows-latest]
+        platform: [macos-latest, ubuntu-20.04, windows-latest]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -41,7 +41,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build the app
-        run: pnpm tauri build
+        run: pnpm tauri build -v 2> >(grep -i TAURI_TARGET_TRIPLE)
 
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
