@@ -108,6 +108,16 @@ jobs:
           name: bins
           path: bins
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Sync node version and setup cache
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          cache: "pnpm"
+
       - run: pnpm pack
 
       - run: ls -la .
