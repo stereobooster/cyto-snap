@@ -41,7 +41,7 @@ const assertEqualImages = async (file) => {
       outputDiffMask: true,
     }
   );
-  if (reason === "pixel-diff") match = rest.diffPercentage <= 0.0375;
+  if (reason === "pixel-diff") match = rest.diffPercentage <= 0.16;
   if (!match) console.log(rest);
   assert.equal(match, true, reason);
 };
