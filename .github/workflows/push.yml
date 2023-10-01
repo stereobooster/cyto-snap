@@ -120,4 +120,13 @@ jobs:
 
       - run: pnpm pack
 
-      - run: ls -la .
+      - name: Set env variables
+        run: |
+          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: "npm-package"
+          path: "${{ env.PACKAGE_NAME }}-${{ env.PACKAGE_VERSION }}.tgz"
+          if-no-files-found: error
