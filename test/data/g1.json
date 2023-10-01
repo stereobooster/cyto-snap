@@ -16,7 +16,7 @@
       "style": {
         "width": 20,
         "height": 20,
-        "shape": "circle",
+        "shape": "hexagon",
         "background-color": "red"
       }
     },
@@ -33,5 +33,6 @@
     "fit": true,
     "padding": 0,
     "animate": false
-  }
+  },
+  "background": "grey"
 }

@@ -14,9 +14,33 @@ devDependencies:
   '@types/cytoscape':
     specifier: ^3.19.11
     version: 3.19.11
+  '@types/cytoscape-avsdf':
+    specifier: ^1.0.1
+    version: 1.0.1
+  '@types/cytoscape-dagre':
+    specifier: ^2.3.1
+    version: 2.3.1
+  '@types/cytoscape-klay':
+    specifier: ^3.1.2
+    version: 3.1.2
   cytoscape:
     specifier: ^3.26.0
     version: 3.26.0
+  cytoscape-avsdf:
+    specifier: ^1.0.0
+    version: 1.0.0(cytoscape@3.26.0)
+  cytoscape-cola:
+    specifier: ^2.5.1
+    version: 2.5.1(cytoscape@3.26.0)
+  cytoscape-dagre:
+    specifier: ^2.5.0
+    version: 2.5.0(cytoscape@3.26.0)
+  cytoscape-elk:
+    specifier: ^2.2.0
+    version: 2.2.0(cytoscape@3.26.0)
+  cytoscape-klay:
+    specifier: ^3.1.4
+    version: 3.1.4(cytoscape@3.26.0)
   odiff-bin:
     specifier: ^2.6.1
     version: 2.6.1
@@ -339,8 +363,77 @@ packages:
       '@tauri-apps/cli-win32-x64-msvc': 1.4.0
     dev: true
 
+  /@types/cytoscape-avsdf@1.0.1:
+    resolution: {integrity: sha512-c5bIRLZmlTTlTTNaOFrzeBU1P9gXklnGFuGtXq3n2nhKBeq3cTVBFc6OtevCaUt6XJvHvK8sko/WId6dDGOtGg==}
+    dependencies:
+      '@types/cytoscape': 3.19.11
+    dev: true
+
+  /@types/cytoscape-dagre@2.3.1:
+    resolution: {integrity: sha512-4tLRpQxICUC+YooRTTs3pfTkctsOgu0/ID4A3u2knGDQykh3Tz+Go8MgUifPP1xV7VzGBogSdOqz3l/P9NTUZQ==}
+    dependencies:
+      '@types/cytoscape': 3.19.11
+    dev: true
+
+  /@types/cytoscape-klay@3.1.2:
+    resolution: {integrity: sha512-EIvsBqBv2XinDHJ/0Tqe5v3fDS9t3KDOimYUuFxmcViN0qbtkswHfxk0Gq2JLoc2AU5ckKmr4VsoLf4ibGrHFA==}
+    dependencies:
+      '@types/cytoscape': 3.19.11
+    dev: true
+
   /@types/cytoscape@3.19.11:
     resolution: {integrity: sha512-ny4i4BOoZxdc9DrSa9RrasXHPRFgt0PeINgj/CegzKu7CJO+UQP0KnjebYJ+KoLymyUbCX86vmqz5B3LK10w5Q==}
+    dev: true
+
+  /avsdf-base@1.0.0:
+    resolution: {integrity: sha512-APhZNUFJwIwrLsSfE95QjobEntdUhFQgfNtC/BrYmjUpwHh5Y2fbRv8lxAlMr1hdf/CuQYsqJxK3dRzcCL77qw==}
+    dependencies:
+      layout-base: 1.0.2
+    dev: true
+
+  /cytoscape-avsdf@1.0.0(cytoscape@3.26.0):
+    resolution: {integrity: sha512-Wzd2wmJgr4dK5avHy4nKHp3D8TBZ8H/+5Hq5o24bRdVTvXlhSDzQhAMtzOuhRPYwHcWB+cBhEAXboAK8n7zPTQ==}
+    peerDependencies:
+      cytoscape: ^3.2.0
+    dependencies:
+      avsdf-base: 1.0.0
+      cytoscape: 3.26.0
+    dev: true
+
+  /cytoscape-cola@2.5.1(cytoscape@3.26.0):
+    resolution: {integrity: sha512-4/2S9bW1LvdsEPmxXN1OEAPFPbk7DvCx2c9d+TblkQAAvptGaSgtPWCByTEGgT8UxCxcVqes2aFPO5pzwo7R2w==}
+    peerDependencies:
+      cytoscape: ^3.2.0
+    dependencies:
+      cytoscape: 3.26.0
+      webcola: 3.4.0
+    dev: true
+
+  /cytoscape-dagre@2.5.0(cytoscape@3.26.0):
+    resolution: {integrity: sha512-VG2Knemmshop4kh5fpLO27rYcyUaaDkRw+6PiX4bstpB+QFt0p2oauMrsjVbUamGWQ6YNavh7x2em2uZlzV44g==}
+    peerDependencies:
+      cytoscape: ^3.2.22
+    dependencies:
+      cytoscape: 3.26.0
+      dagre: 0.8.5
+    dev: true
+
+  /cytoscape-elk@2.2.0(cytoscape@3.26.0):
+    resolution: {integrity: sha512-EqXBVRcWeah/oBOifAmne0ImmIKntBVEQh2XCJXY++BgCufehZglRclrJ1DWm5Qm/NDBO/wEDijjgd50xJXw0A==}
+    peerDependencies:
+      cytoscape: ^3.2.0
+    dependencies:
+      cytoscape: 3.26.0
+      elkjs: 0.8.2
+    dev: true
+
+  /cytoscape-klay@3.1.4(cytoscape@3.26.0):
+    resolution: {integrity: sha512-VwPj0VR25GPfy6qXVQRi/MYlZM/zkdvRhHlgqbM//lSvstgM6fhp3ik/uM8Wr8nlhskfqz/M1fIDmR6UckbS2A==}
+    peerDependencies:
+      cytoscape: ^3.2.0
+    dependencies:
+      cytoscape: 3.26.0
+      klayjs: 0.4.1
     dev: true
 
   /cytoscape@3.26.0:
@@ -349,6 +442,46 @@ packages:
     dependencies:
       heap: 0.2.7
       lodash: 4.17.21
+    dev: true
+
+  /d3-dispatch@1.0.6:
+    resolution: {integrity: sha512-fVjoElzjhCEy+Hbn8KygnmMS7Or0a9sI2UzGwoB7cCtvI1XpVN9GpoYlnb3xt2YV66oXYb1fLJ8GMvP4hdU1RA==}
+    dev: true
+
+  /d3-drag@1.2.5:
+    resolution: {integrity: sha512-rD1ohlkKQwMZYkQlYVCrSFxsWPzI97+W+PaEIBNTMxRuxz9RF0Hi5nJWHGVJ3Om9d2fRTe1yOBINJyy/ahV95w==}
+    dependencies:
+      d3-dispatch: 1.0.6
+      d3-selection: 1.4.2
+    dev: true
+
+  /d3-path@1.0.9:
+    resolution: {integrity: sha512-VLaYcn81dtHVTjEHd8B+pbe9yHWpXKZUC87PzoFmsFrJqgFwDe/qxfp5MlfsfM1V5E/iVt0MmEbWQ7FVIXh/bg==}
+    dev: true
+
+  /d3-selection@1.4.2:
+    resolution: {integrity: sha512-SJ0BqYihzOjDnnlfyeHT0e30k0K1+5sR3d5fNueCNeuhZTnGw4M4o8mqJchSwgKMXCNFo+e2VTChiSJ0vYtXkg==}
+    dev: true
+
+  /d3-shape@1.3.7:
+    resolution: {integrity: sha512-EUkvKjqPFUAZyOlhY5gzCxCeI0Aep04LwIRpsZ/mLFelJiUfnK56jo5JMDSE7yyP2kLSb6LtF+S5chMk7uqPqw==}
+    dependencies:
+      d3-path: 1.0.9
+    dev: true
+
+  /d3-timer@1.0.10:
+    resolution: {integrity: sha512-B1JDm0XDaQC+uvo4DT79H0XmBskgS3l6Ve+1SBCfxgmtIb1AVrPIoqd+nPSv+loMX8szQ0sVUhGngL7D5QPiXw==}
+    dev: true
+
+  /dagre@0.8.5:
+    resolution: {integrity: sha512-/aTqmnRta7x7MCCpExk7HQL2O4owCT2h8NT//9I1OQ9vt29Pa0BzSAkR5lwFUcQ7491yVi/3CXU9jQ5o0Mn2Sw==}
+    dependencies:
+      graphlib: 2.1.8
+      lodash: 4.17.21
+    dev: true
+
+  /elkjs@0.8.2:
+    resolution: {integrity: sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==}
     dev: true
 
   /esbuild@0.18.20:
@@ -389,8 +522,22 @@ packages:
     dev: true
     optional: true
 
+  /graphlib@2.1.8:
+    resolution: {integrity: sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==}
+    dependencies:
+      lodash: 4.17.21
+    dev: true
+
   /heap@0.2.7:
     resolution: {integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==}
+    dev: true
+
+  /klayjs@0.4.1:
+    resolution: {integrity: sha512-WUNxuO7O79TEkxCj6OIaK5TJBkaWaR/IKNTakgV9PwDn+mrr63MLHed34AcE2yTaDntgO6l0zGFIzhcoTeroTA==}
+    dev: true
+
+  /layout-base@1.0.2:
+    resolution: {integrity: sha512-8h2oVEZNktL4BH2JCOI90iD1yXwL6iNW7KcCKT2QZgQJR2vbqDsldCTPRU9NifTCqHZci57XvQQ15YTu+sTYPg==}
     dev: true
 
   /lodash@4.17.21:
@@ -474,4 +621,13 @@ packages:
       rollup: 3.29.3
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /webcola@3.4.0:
+    resolution: {integrity: sha512-4BiLXjXw3SJHo3Xd+rF+7fyClT6n7I+AR6TkBqyQ4kTsePSAMDLRCXY1f3B/kXJeP9tYn4G1TblxTO+jAt0gaw==}
+    dependencies:
+      d3-dispatch: 1.0.6
+      d3-drag: 1.2.5
+      d3-shape: 1.3.7
+      d3-timer: 1.0.10
     dev: true

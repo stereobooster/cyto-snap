@@ -15,6 +15,15 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
 
 **TODO**:
 
+- tests
+  - test all layouts https://js.cytoscape.org/#extensions/layout-extensions
+  - test `jpg`
+  - test `STDIN` / `STDOUT`
+  - test error cases
+    - none existent file
+    - none existen folder
+    - broken JSON
+    - broken values is JSON
 - npm executable
   - https://blog.orhun.dev/packaging-rust-for-npm/
   - https://www.woubuc.be/blog/post/publishing-rust-binary-on-npm/
@@ -28,18 +37,6 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
   - Brew and others https://oclif.io/docs/releasing/
   - npm
   - https://rust-cli.github.io/book/tutorial/packaging.html#how-to-install-these-binaries
-- visual-diff as integration testing
-  - https://nodejs.org/api/test.html#test-runner
-  - https://github.com/dmtrKovalenko/odiff
-  - https://github.com/mapbox/pixelmatch
-  - https://github.com/rsmbl/Resemble.js
-  - https://github.com/gemini-testing/looks-same
-  - https://github.com/HumbleSoftware/js-imagediff
-  - https://github.com/reg-viz/img-diff-js
-  - https://github.com/happo/lcs-image-diff
-    - https://github.com/bokuweb/lcs-image-diff-rs
-    - https://github.com/murooka/go-diff-image
-  - https://github.com/yahoo/blink-diff (deprecated)
 
 ## Links
 
@@ -50,6 +47,17 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
 - https://doc.rust-lang.org/book/ch12-00-an-io-project.html
 - https://doc.rust-lang.org/rust-by-example/
 
-
 - https://superface.ai/blog/npm-publish-gh-actions-changelog
 - https://github.com/tauri-apps/tauri/discussions/3048
+
+- visual-diff
+  - https://github.com/dmtrKovalenko/odiff
+  - https://github.com/mapbox/pixelmatch
+  - https://github.com/rsmbl/Resemble.js
+  - https://github.com/gemini-testing/looks-same
+  - https://github.com/HumbleSoftware/js-imagediff
+  - https://github.com/reg-viz/img-diff-js
+  - https://github.com/happo/lcs-image-diff
+    - https://github.com/bokuweb/lcs-image-diff-rs
+    - https://github.com/murooka/go-diff-image
+  - https://github.com/yahoo/blink-diff (deprecated)

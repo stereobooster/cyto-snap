@@ -1,4 +1,4 @@
-import cytoscape from "cytoscape";
+import cytoscape, { Ext } from "cytoscape";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getMatches } from "@tauri-apps/api/cli";
 
@@ -28,6 +28,30 @@ const defaults: Options = {
   height: 400,
 };
 
+const loadExtension = async (name: string) => {
+  let ext: Ext | undefined;
+  switch (name) {
+    case "avsdf":
+      ext = (await import("cytoscape-avsdf")).default;
+      break;
+    case "dagre":
+      ext = (await import("cytoscape-dagre")).default;
+      break;
+    // case "elk":
+    //   // @ts-ignore
+    //   ext = (await import("cytoscape-elk")).default;
+    //   break;
+    case "klay":
+      ext = (await import("cytoscape-klay")).default;
+      break;
+    case "cola":
+      // @ts-ignore
+      ext = (await import("cytoscape-cola")).default;
+      break;
+  }
+  if (ext) cytoscape.use(ext);
+};
+
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const matches = await getMatches();
@@ -37,12 +61,20 @@ window.addEventListener("DOMContentLoaded", async () => {
     // TODO: maybe validate with https://github.com/samchon/typia
     const source: Options = { ...defaults, ...JSON.parse(source_raw) };
 
+    await loadExtension(source.layout.name);
+
     const container = document.getElementById("cy")!;
     container.style.width = `${source.width}px`;
     container.style.height = `${source.height}px`;
 
     const cy = cytoscape({ container, ...source });
 
+    if (typeof source.layout === "object") {
+      // @ts-ignore
+      if (source.layout.fit === undefined) source.layout.fit = true;
+      // @ts-ignore
+      if (source.layout.animate === undefined) source.layout.animate = false;
+    }
     cy.layout(source.layout).run();
 
     let res: string = "";

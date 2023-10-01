@@ -32,7 +32,7 @@
     { "data": { "source": "n13", "target": "n15" } }
   ],
   "layout": {
-    "name": "grid"
+    "name": "breadthfirst"
   },
   "width": 1000,
   "height": 1000
