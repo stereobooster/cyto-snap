@@ -47,9 +47,6 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
-      - name: List files
-        run: ls src-tauri/target/release
-
       - name: Test
         if: matrix.platform != 'ubuntu-20.04'
         run: pnpm test
@@ -77,10 +74,15 @@ jobs:
           echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "RUST_TARGET=$(node .github/get_target.js)" >> $GITHUB_ENV
 
+      - name: Copy executable
+        run: |
+          mkdir -p bins/${BIN_NAME}
+          cp src-tauri/target/release/${PACKAGE_NAME}* bins/${RUST_TARGET}
+    
       - uses: actions/upload-artifact@v3
         with:
-          name: "bins/${{ env.RUST_TARGET }}"
-          path: "src-tauri/target/release/${{ env.PACKAGE_NAME }}*"
+          name: "bins"
+          path: "bins/"
           if-no-files-found: error
 
       # - name: Set env variables
