@@ -1,34 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
-import { cwd } from "node:process";
 import { compare } from "odiff-bin";
 import { mkdirSync, existsSync } from "node:fs";
-
-// TODO: make it a lib and detect executable depending on os/architecture
-const cytoSnap = (src, dst) => {
-  return new Promise((resolve, reject) => {
-    const srcStdin = typeof src !== "string";
-    const args = [];
-    if (!srcStdin) args.push("-s", "test/" + src);
-    if (dst) args.push("-d", "test/" + dst);
-
-    const bin = spawn("src-tauri/target/release/cyto-snap", args, {
-      windowsHide: true,
-      cwd: cwd(),
-    });
-    bin.stdout.on("data", (data) => reject(`stdout: ${data}`));
-    bin.stderr.on("data", (data) => reject(`stderr: ${data}`));
-    bin.on("close", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(`child process exited with code ${code}`);
-      }
-    });
-    if (srcStdin) bin.stdin.write(JSON.stringify(src));
-  });
-};
+import { cytoSnap } from "../index.js";
 
 const assertEqualImages = async (file) => {
   let { match, reason, ...rest } = await compare(
