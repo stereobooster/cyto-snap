@@ -80,7 +80,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: "bins/${{ env.RUST_TARGET }}"
-          path: "src-tauri/target/release/${PACKAGE_NAME}*"
+          path: "src-tauri/target/release/${{ env.PACKAGE_NAME }}*"
           if-no-files-found: error
 
       # - name: Set env variables
