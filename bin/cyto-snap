@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Binary was not linked. You need to have postinstall enabled, please make sure to not use --ignore-scripts when installing deps."
+exit 1

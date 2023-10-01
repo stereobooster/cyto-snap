@@ -33,8 +33,10 @@ export const getTarget = (proc = { arch, platform }) => {
   return [arch, os, env].filter(Boolean).join('-')
 };
 
+const packageName = 'cyto-snap'
+
 export const executablePath = (proc = { arch, platform }) => {
-  let path = "src-tauri/target/release/cyto-snap";
+  let path = `bins/${getTarget(proc)}/${packageName}`
   if (proc.platform === "win32") path += ".exe";
   return path;
 };

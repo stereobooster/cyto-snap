@@ -45,6 +45,9 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
+      - name: Build the app
+        run: pnpm tauri-postbuild
+
       - name: Test
         if: matrix.platform != 'ubuntu-20.04'
         run: pnpm test
@@ -65,23 +68,18 @@ jobs:
           name: image-diff
           path: test/diff/*
 
-      - name: Set env variables
-        run: |
-          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-          echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
-          echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          echo "RUST_TARGET=$(node .github/get_target.js)" >> $GITHUB_ENV
-
-      - name: Copy executable
-        run: |
-          mkdir -p bins/${RUST_TARGET}
-          cp src-tauri/target/release/${PACKAGE_NAME}* bins/${RUST_TARGET}
-
       - uses: actions/upload-artifact@v3
         with:
           name: "bins"
           path: "bins/"
           if-no-files-found: error
+
+      # - name: Set env variables
+      #   run: |
+      #     echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      #     echo "PACKAGE_NAME=$(node -p "require('./package.json').name")" >> $GITHUB_ENV
+      #     echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      #     echo "RUST_TARGET=$(node .github/get_target.js)" >> $GITHUB_ENV
 
       # - name: Set env variables
       #   run: |
@@ -110,6 +108,6 @@ jobs:
           name: bins
           path: bins
 
-      - run: ls -la bins
+      - run: pnpm pack
 
-      - run: ls -la bins/x86_64-apple-darwin
+      - run: ls -la .

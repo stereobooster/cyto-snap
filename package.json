@@ -2,13 +2,17 @@
   "name": "cyto-snap",
   "private": true,
   "version": "0.0.0",
+  "author": "stereooboster",
   "type": "module",
+  "files": ["index.js", "/bins", "README.md"],
+  "bin": "bin/cyto-snap",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "test": "node test/index.test.js",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "tauri-postbuild": ".github/post_build.sh"
   },
   "devDependencies": {
     "@tauri-apps/api": "^1.4.0",
