@@ -37,5 +37,5 @@ Render graphs on the server side with Cytoscape.js, getting image file as output
    1. Install `rust`
 2. Install `pnpm`
    1. `pnpm install`
-3. Build `pnpm tauri build`
-4. Run `src-tauri/target/release/cyto-snap -s tmp/example.json -d tmp/example.png`
+3. Build `pnpm tauri build`, `pnpm tauri-postbuild`
+4. Test `pnpm test`
