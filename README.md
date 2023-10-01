@@ -9,16 +9,12 @@
 3. Build `pnpm tauri build`
 4. Run `src-tauri/target/release/cyto-snap -s tmp/example.json -d tmp/example.png`
 
-## Notes
+## TODO
 
-https://github.com/cytoscape/cytosnap/blob/master/index.js
-
-**TODO**:
-
-- npm executable
-  - npm https://stereobooster.com/posts/distributing-executable-binaries-in-npm-package/
+- npm executable https://stereobooster.com/posts/distributing-executable-binaries-in-npm-package/
+  - [ ] simplest option: pack all executables in npm and use `spawn`
+    - map between rust and nose targets
 - tests
-  - test all layouts https://js.cytoscape.org/#extensions/layout-extensions
   - test `jpg`
   - test `STDIN` / `STDOUT`
   - test error cases
@@ -26,11 +22,16 @@ https://github.com/cytoscape/cytosnap/blob/master/index.js
     - none existen folder
     - broken JSON
     - broken values is JSON
+  - [ ] test all the rest of layouts https://js.cytoscape.org/#extensions/layout-extensions
 - distribution
-  - Brew and others https://oclif.io/docs/releasing/
+  - npm (see above)
+  - standard OS packages https://tauri.app/v1/guides/building/
+  - Brew and similar https://oclif.io/docs/releasing/
+    - tarballs, https://snapcraft.io/, https://chocolatey.org/, https://scoop.sh/
   - "cURL installer" https://rust-cli.github.io/book/tutorial/packaging.html#how-to-install-these-binaries
 
 ## Links
 
 - https://superface.ai/blog/npm-publish-gh-actions-changelog
 - https://github.com/tauri-apps/tauri/discussions/3048
+- https://github.com/cytoscape/cytosnap/blob/master/index.js

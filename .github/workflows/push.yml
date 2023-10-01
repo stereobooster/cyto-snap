@@ -17,7 +17,7 @@ jobs:
         # You can remove libayatana-appindicator3-dev if you don't use the system tray feature.
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libayatana-appindicator3-dev librsvg2-dev xvfb
 
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
@@ -41,13 +41,18 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build the app
-        run: pnpm tauri build -v 2> >(grep -i TAURI_TARGET_TRIPLE)
+        run: pnpm tauri build
 
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
       - name: Test
+        if: matrix.platform != 'ubuntu-20.04'
         run: pnpm test
+
+      - name: Test
+        if: matrix.platform == 'ubuntu-20.04'
+        run: xvfb-run pnpm test
 
       - uses: actions/upload-artifact@v3
         if: failure()
