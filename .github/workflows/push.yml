@@ -46,6 +46,9 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
+      - name: List files
+        run: ls src-tauri/target/release
+
       - name: Test
         if: matrix.platform != 'ubuntu-20.04'
         run: pnpm test
