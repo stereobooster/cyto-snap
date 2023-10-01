@@ -76,7 +76,7 @@ jobs:
         run: |
           mkdir -p bins/${RUST_TARGET}
           cp src-tauri/target/release/${PACKAGE_NAME}* bins/${RUST_TARGET}
-    
+
       - uses: actions/upload-artifact@v3
         with:
           name: "bins"
@@ -110,4 +110,6 @@ jobs:
           name: bins
           path: bins
 
-      - run: ls bins
+      - run: ls -la bins
+
+      - run: ls -la bins/x86_64-apple-darwin
