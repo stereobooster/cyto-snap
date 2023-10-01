@@ -77,18 +77,24 @@ jobs:
           echo "SHA_SHORT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           echo "RUST_TARGET=$(node .github/get_target.js)" >> $GITHUB_ENV
 
-      - name: Set env variables
-        run: |
-          echo "BIN_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${SHA_SHORT}-${RUST_TARGET}" >> $GITHUB_ENV
-
-      - name: Pack executable
-        run: |
-          mkdir -p bins/${BIN_NAME}
-          cp src-tauri/target/release/${PACKAGE_NAME}* bins/${BIN_NAME}
-          tar -C bins -czvf ${BIN_NAME}.tar.gz ${BIN_NAME}
-
       - uses: actions/upload-artifact@v3
         with:
-          name: "${{ env.BIN_NAME }}"
-          path: "${{ env.BIN_NAME }}.tar.gz"
+          name: "bins/${{ env.RUST_TARGET }}"
+          path: "src-tauri/target/release/${PACKAGE_NAME}*"
           if-no-files-found: error
+
+      # - name: Set env variables
+      #   run: |
+      #     echo "BIN_NAME=${PACKAGE_NAME}-${PACKAGE_VERSION}-${SHA_SHORT}-${RUST_TARGET}" >> $GITHUB_ENV
+
+      # - name: Pack executable
+      #   run: |
+      #     mkdir -p bins/${BIN_NAME}
+      #     cp src-tauri/target/release/${PACKAGE_NAME}* bins/${BIN_NAME}
+      #     tar -C bins -czvf ${BIN_NAME}.tar.gz ${BIN_NAME}
+
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: "${{ env.BIN_NAME }}"
+      #     path: "${{ env.BIN_NAME }}.tar.gz"
+      #     if-no-files-found: error
