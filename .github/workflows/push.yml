@@ -74,7 +74,7 @@ jobs:
 
       - name: Copy executable
         run: |
-          mkdir -p bins/${BIN_NAME}
+          mkdir -p bins/${RUST_TARGET}
           cp src-tauri/target/release/${PACKAGE_NAME}* bins/${RUST_TARGET}
     
       - uses: actions/upload-artifact@v3
