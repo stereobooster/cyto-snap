@@ -22,16 +22,21 @@ const envMapping = {
   win32: "msvc",
 };
 
-export const processToTargetTripple = (proc = { arch, platform }) => ({
+export const getTargetTripple = (proc = { arch, platform }) => ({
   arch: archMapping[proc.arch],
   os: platformMapping[proc.platform],
   env: envMapping[proc.platform],
 });
 
+export const getTarget = (proc = { arch, platform }) => {
+  const { arch, os, env } = getTargetTripple(proc);
+  return [arch, os, env].filter(Boolean).join('-')
+};
+
 export const executablePath = (proc = { arch, platform }) => {
   let path = "src-tauri/target/release/cyto-snap";
   if (proc.platform === "win32") path += ".exe";
-  return path
+  return path;
 };
 
 export const cytoSnap = (src, dst) => {
