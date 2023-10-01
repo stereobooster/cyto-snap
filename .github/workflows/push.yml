@@ -36,8 +36,6 @@ jobs:
           node-version: "lts/*"
           cache: "pnpm"
 
-      - run: node .github/get_target.js
-
       - name: Install frontend dependencies
         run: pnpm install --frozen-lockfile
 
