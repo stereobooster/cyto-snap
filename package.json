@@ -1,11 +1,15 @@
 {
   "name": "cyto-snap",
-  "private": true,
   "version": "0.0.0",
+  "description": "Render graphs on the server side with Cytoscape.js, getting image file as output",
+  "keywords": ["cytoscape.js", "tauri"],
+  "license" : "MIT",
+  "repository": "stereobooster/cyto-snap",
   "author": "stereooboster",
   "type": "module",
   "files": ["index.js", "/bins", "README.md"],
   "bin": "bin/cyto-snap",
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
