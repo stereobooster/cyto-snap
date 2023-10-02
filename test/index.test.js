@@ -1,6 +1,6 @@
+import { compare } from "odiff-bin";
 import test from "node:test";
 import assert from "node:assert/strict";
-import { compare } from "odiff-bin";
 import { mkdirSync, existsSync } from "node:fs";
 import { cytoSnap } from "../index.js";
 
