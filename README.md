@@ -6,11 +6,6 @@ Render graphs on the server side with Cytoscape.js, getting image file as output
 
 ## TODO
 
-- [npm executable](https://stereobooster.com/posts/distributing-executable-binaries-in-npm-package/)
-  - [x] pack all executables in npm
-  - [ ] either use `postinstall` to replace excutable or use JS wrapper with `spawn`
-- [ ] clean up readme and publish package
-- [ ] write an article
 - Finish configuration of github actions
   - [ ] check release flow
   - [ ] add action to create releses for tags and publish Tauri installers to release

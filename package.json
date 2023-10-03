@@ -1,6 +1,6 @@
 {
   "name": "cyto-snap",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Render graphs on the server side with Cytoscape.js, getting image file as output",
   "keywords": [
     "cytoscape.js",
@@ -32,7 +32,8 @@
     "test": "node test/index.test.js",
     "preview": "vite preview",
     "tauri": "tauri",
-    "tauri-postbuild": ".github/post_build.sh"
+    "tauri-postbuild": ".github/post_build.sh",
+    "postinstall": "node ./postinstall.js"
   },
   "devDependencies": {
     "@tauri-apps/api": "^1.4.0",
