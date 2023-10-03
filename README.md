@@ -4,6 +4,12 @@
 
 Render graphs on the server side with Cytoscape.js, getting image file as output. This package is similar to [cytosnap](https://github.com/cytoscape/cytosnap), but is uses Tauri instead of Puppeteer.
 
+Can be used like this:
+
+```
+npx @stereobooster/cyto-snap -s g2.json -d g2.png
+```
+
 ## TODO
 
 - Finish configuration of github actions
