@@ -5,10 +5,11 @@
 use tauri::ActivationPolicy;
 
 use base64::Engine;
+// TODO: use https://doc.rust-lang.org/stable/std/io/trait.IsTerminal.html
 use is_terminal::IsTerminal;
 use path_clean::PathClean;
 use std::path::{Path, PathBuf};
-use std::{env, fs, io, io::Read};
+use std::io::Read;
 
 #[tauri::command]
 fn println(str: String) {
@@ -25,13 +26,13 @@ fn app_exit(app_handle: tauri::AppHandle, exit_code: i32) {
     app_handle.exit(exit_code)
 }
 
-fn absolute_path(path: impl AsRef<Path>) -> io::Result<PathBuf> {
+fn absolute_path(path: impl AsRef<Path>) -> std::io::Result<PathBuf> {
     let path = path.as_ref();
 
     let absolute_path = if path.is_absolute() {
         path.to_path_buf()
     } else {
-        env::current_dir()?.join(path)
+        std::env::current_dir()?.join(path)
     }
     .clean();
 
@@ -54,7 +55,7 @@ fn read_source(src: String) -> Result<String, String> {
         }
     } else {
         let path = absolute_path(PathBuf::from(src)).unwrap();
-        match fs::read_to_string(&path) {
+        match std::fs::read_to_string(&path) {
             std::result::Result::Ok(v) => Ok(v),
             std::result::Result::Err(e) => {
                 Err(format!("{} ({})", e.to_string(), path.to_string_lossy()))
