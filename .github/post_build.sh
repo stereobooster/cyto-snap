@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PACKAGE_NAME=$(node -p "require('./package.json').name")
+PACKAGE_NAME=cyto-snap
 RUST_TARGET=$(node .github/get_target.js)
 
 mkdir -p bins/${RUST_TARGET}

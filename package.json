@@ -1,6 +1,6 @@
 {
   "name": "@stereobooster/cyto-snap",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Render graphs on the server side with Cytoscape.js, getting image file as output",
   "keywords": [
     "cytoscape.js",
