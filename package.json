@@ -33,7 +33,7 @@
     "test": "node test/index.test.js",
     "preview": "vite preview",
     "tauri": "tauri",
-    "tauri-postbuild": ".github/post_build.sh",
+    "tauri-postbuild": "./.github/post_build.sh",
     "postinstall": "node ./postinstall.js"
   },
   "devDependencies": {

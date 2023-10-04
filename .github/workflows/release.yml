@@ -50,7 +50,7 @@ jobs:
       # - name: Build the app
       #   uses: tauri-apps/tauri-action@v0
 
-      - name: Build the app
+      - name: Postbuild
         run: pnpm tauri-postbuild
 
       - name: Test
@@ -61,11 +61,11 @@ jobs:
         if: matrix.platform == 'ubuntu-20.04'
         run: xvfb-run pnpm test
 
-      - uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: image-tmp
-          path: test/tmp/*
+      # - uses: actions/upload-artifact@v3
+      #   if: failure()
+      #   with:
+      #     name: image-tmp
+      #     path: test/tmp/*
 
       - uses: actions/upload-artifact@v3
         if: failure()

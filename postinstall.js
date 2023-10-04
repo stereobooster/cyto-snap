@@ -8,6 +8,7 @@ try {
   // import any of devDependencies
   await import("odiff-bin");
   // if ok we can assume this is development mode
+  // Other way would be to introduce env variable SKIP_POSTINSTALL
 } catch (e) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
