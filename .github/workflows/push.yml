@@ -24,7 +24,6 @@ jobs:
           cache: "pnpm"
 
       - name: Postbuild
-        shell: bash
         run: bash scripts/post_build.sh
 
       # - name: Install dependencies (ubuntu only)
