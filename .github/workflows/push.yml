@@ -24,6 +24,7 @@ jobs:
           cache: "pnpm"
 
       - name: Postbuild
+        shell: bash
         run: pnpm tauri-postbuild
 
       # - name: Install dependencies (ubuntu only)
