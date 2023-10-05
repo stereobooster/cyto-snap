@@ -13,6 +13,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-20.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev librsvg2-dev at-spi2-core xvfb
+
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -23,55 +37,28 @@ jobs:
           node-version: "lts/*"
           cache: "pnpm"
 
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the app
+        run: pnpm tauri build
+
+      # - name: Build the app
+      #   uses: tauri-apps/tauri-action@v0
+
       - name: Postbuild
         run: bash scripts/post_build.sh
 
-      # - name: Install dependencies (ubuntu only)
-      #   if: matrix.platform == 'ubuntu-20.04'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev librsvg2-dev at-spi2-core xvfb
+      - name: Test
+        if: matrix.platform != 'ubuntu-20.04'
+        run: pnpm test
 
-      # - name: Rust setup
-      #   uses: dtolnay/rust-toolchain@stable
+      - name: Test
+        if: matrix.platform == 'ubuntu-20.04'
+        run: xvfb-run pnpm test
 
-      # - name: Rust cache
-      #   uses: swatinem/rust-cache@v2
-      #   with:
-      #     workspaces: "./src-tauri -> target"
-
-      # - uses: pnpm/action-setup@v2
-      #   with:
-      #     version: 8
-
-      # - name: Sync node version and setup cache
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: "lts/*"
-      #     cache: "pnpm"
-
-      # - name: Install frontend dependencies
-      #   run: pnpm install --frozen-lockfile
-
-      # - name: Build the app
-      #   run: pnpm tauri build
-
-      # # - name: Build the app
-      # #   uses: tauri-apps/tauri-action@v0
-
-      # - name: Postbuild
-      #   run: pnpm tauri-postbuild
-
-      # - name: Test
-      #   if: matrix.platform != 'ubuntu-20.04'
-      #   run: pnpm test
-
-      # - name: Test
-      #   if: matrix.platform == 'ubuntu-20.04'
-      #   run: xvfb-run pnpm test
-
-      # - uses: actions/upload-artifact@v3
-      #   if: failure()
-      #   with:
-      #     name: image-diff
-      #     path: test/diff/*
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: image-diff
+          path: test/diff/*

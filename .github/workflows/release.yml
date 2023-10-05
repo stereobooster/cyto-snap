@@ -51,7 +51,7 @@ jobs:
       #   uses: tauri-apps/tauri-action@v0
 
       - name: Postbuild
-        run: pnpm tauri-postbuild
+        run: bash scripts/post_build.sh
 
       - name: Test
         if: matrix.platform != 'ubuntu-20.04'
