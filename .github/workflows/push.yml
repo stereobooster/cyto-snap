@@ -25,7 +25,7 @@ jobs:
 
       - name: Postbuild
         shell: bash
-        run: pnpm tauri-postbuild
+        run: bash scripts/post_build.sh
 
       # - name: Install dependencies (ubuntu only)
       #   if: matrix.platform == 'ubuntu-20.04'
