@@ -1,6 +1,10 @@
 import cytoscape, { Ext } from "cytoscape";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getMatches } from "@tauri-apps/api/cli";
+// @ts-ignore
+import svg from "cytoscape-svg";
+
+cytoscape.use(svg);
 
 type Options = {
   // cytoscape
@@ -8,7 +12,7 @@ type Options = {
   style: cytoscape.Stylesheet[];
   layout: cytoscape.LayoutOptions;
   // other
-  format: "png" | "jpeg"; // | "json";
+  format: "png" | "jpeg" | "svg"; // | "json";
   quality: number;
   resolvesTo: "base64uri" | "base64"; //| "blob";
   background: string;
@@ -80,6 +84,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     let res: string = "";
 
     if (dst) source.resolvesTo = "base64";
+    let enc = dst ? "base64" : "text";
 
     switch (source.format) {
       case "jpeg":
@@ -99,12 +104,20 @@ window.addEventListener("DOMContentLoaded", async () => {
           output: source.resolvesTo,
         });
         break;
+      case "svg":
+        enc = "text";
+        // @ts-ignore
+        res = cy.svg({
+          bg: source.background,
+          full: true,
+        });
+        break;
       // case "json":
       //   result = JSON.stringify(cy.json());
       //   break;
     }
 
-    await invoke("write_destination", { dst, res });
+    await invoke("write_destination", { dst, res, enc });
     await invoke("app_exit", { exitCode: 0 });
   } catch (e) {
     await invoke("eprintln", { str: String(e) });

@@ -12,7 +12,6 @@ npx @stereobooster/cyto-snap -s g2.json -d g2.png
 
 ## TODO
 
-- [ ] support [SVG output](https://github.com/kinimesi/cytoscape-svg)
 - Finish configuration of github actions
   - [ ] check release flow
   - [ ] add action to create releses for tags and publish Tauri installers to release

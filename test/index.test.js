@@ -1,7 +1,7 @@
 import { compare } from "odiff-bin";
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdirSync, existsSync } from "node:fs";
+import { mkdirSync, existsSync, readFileSync } from "node:fs";
 import { cytoSnap } from "../index.js";
 
 const assertEqualImages = async (file) => {
@@ -18,6 +18,12 @@ const assertEqualImages = async (file) => {
   if (reason === "pixel-diff") match = rest.diffPercentage <= 0.6;
   if (!match) console.log(rest);
   assert.equal(match, true, reason);
+};
+
+const assertEqualFiles = async (file) => {
+  const f1 = readFileSync("test/data/" + file).toString()
+  const f2 = readFileSync("test/tmp/" + file).toString()
+  assert.equal(f1, f2);
 };
 
 if (!existsSync("test/tmp")) mkdirSync("test/tmp");
@@ -80,4 +86,9 @@ test("graph 10", async (t) => {
 test("graph 11", async (t) => {
   await cytoSnap("data/g11.json", "tmp/g11.png");
   await assertEqualImages("g11.png");
+});
+
+test("graph 12", async (t) => {
+  await cytoSnap("data/g12.json", "tmp/g12.svg");
+  await assertEqualFiles("g12.svg");
 });

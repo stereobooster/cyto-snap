@@ -8,8 +8,8 @@ use base64::Engine;
 // TODO: use https://doc.rust-lang.org/stable/std/io/trait.IsTerminal.html
 use is_terminal::IsTerminal;
 use path_clean::PathClean;
-use std::path::{Path, PathBuf};
 use std::io::Read;
+use std::path::{Path, PathBuf};
 
 #[tauri::command]
 fn println(str: String) {
@@ -65,19 +65,24 @@ fn read_source(src: String) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn write_destination(dst: String, res: String) -> Result<String, String> {
+fn write_destination(dst: String, res: String, enc: String) -> Result<String, String> {
     if dst == "" {
         print!("{}", res);
         Ok(String::from("ok"))
     } else {
-        let bytes = base64::engine::general_purpose::STANDARD.decode(res);
         let path = absolute_path(PathBuf::from(dst)).unwrap();
-        match bytes {
-            std::result::Result::Ok(v) => {
-                std::fs::write(path, v).unwrap();
-                Ok(String::from("ok"))
+        if enc == "text" {
+            std::fs::write(path, res).unwrap();
+            Ok(String::from("ok"))
+        } else {
+            let bytes = base64::engine::general_purpose::STANDARD.decode(res);
+            match bytes {
+                std::result::Result::Ok(v) => {
+                    std::fs::write(path, v).unwrap();
+                    Ok(String::from("ok"))
+                }
+                std::result::Result::Err(e) => Err(e.to_string()),
             }
-            std::result::Result::Err(e) => Err(e.to_string()),
         }
     }
 }
