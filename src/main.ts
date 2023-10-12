@@ -1,10 +1,6 @@
 import cytoscape, { Ext } from "cytoscape";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getMatches } from "@tauri-apps/api/cli";
-// @ts-ignore
-import svg from "cytoscape-svg";
-
-cytoscape.use(svg);
 
 type Options = {
   // cytoscape
@@ -51,6 +47,10 @@ const loadExtension = async (name: string) => {
     case "cola":
       // @ts-ignore
       ext = (await import("cytoscape-cola")).default;
+      break;
+    case "svg":
+      // @ts-ignore
+      ext = (await import("cytoscape-svg")).default;
       break;
   }
   if (ext) cytoscape.use(ext);
@@ -105,6 +105,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         });
         break;
       case "svg":
+        await loadExtension("svg");
         enc = "text";
         // @ts-ignore
         res = cy.svg({
