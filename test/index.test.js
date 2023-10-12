@@ -92,3 +92,8 @@ test("graph 12", async (t) => {
   await cytoSnap("data/g12.json", "tmp/g12.svg");
   await assertEqualFiles("g12.svg");
 });
+
+test("graph 13", async (t) => {
+  await cytoSnap("data/g13.json", "tmp/g13.2.json");
+  await assertEqualFiles("g13.2.json");
+});

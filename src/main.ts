@@ -12,7 +12,7 @@ type Options = {
   style: cytoscape.Stylesheet[];
   layout: cytoscape.LayoutOptions;
   // other
-  format: "png" | "jpeg" | "svg"; // | "json";
+  format: "png" | "jpeg" | "svg" | "json";
   quality: number;
   resolvesTo: "base64uri" | "base64"; //| "blob";
   background: string;
@@ -112,9 +112,10 @@ window.addEventListener("DOMContentLoaded", async () => {
           full: true,
         });
         break;
-      // case "json":
-      //   result = JSON.stringify(cy.json());
-      //   break;
+      case "json":
+        enc = "text";
+        res = JSON.stringify(cy.json());
+        break;
     }
 
     await invoke("write_destination", { dst, res, enc });

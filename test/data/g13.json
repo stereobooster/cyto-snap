@@ -1,0 +1,38 @@
+{
+  "elements": [
+    { "data": { "id": "a" } },
+    { "data": { "id": "b" } },
+    {
+      "data": {
+        "id": "ab",
+        "source": "a",
+        "target": "b"
+      }
+    }
+  ],
+  "style": [
+    {
+      "selector": "node",
+      "style": {
+        "width": 20,
+        "height": 20,
+        "shape": "hexagon",
+        "background-color": "red"
+      }
+    },
+    {
+      "selector": "edge",
+      "style": {
+        "width": 3,
+        "lineColor": "red"
+      }
+    }    
+  ],
+  "layout": {
+    "name": "grid",
+    "fit": true,
+    "padding": 0,
+    "animate": false
+  },
+  "format": "json"
+}
